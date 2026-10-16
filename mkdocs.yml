@@ -67,7 +67,25 @@ nav:
   - 快速开始: getting-started.md
   - 架构总览: architecture.md
   - API 参考:
-      - api/index.md
+      - 约定: api/index.md
+      - 基础层:
+          - 用户: api/users.md
+          - 分组: api/groups.md
+          - 日志: api/logs.md
+          - 附件: api/attachments.md
+          - 导入导出: api/transfers.md
+          - 更新日志: api/changelog.md
+      - v2:
+          - 用户: api/users_v2.md
+          - 分组: api/groups_v2.md
+          - 活动: api/activities_v2.md
+          - 时长: api/times.md
+          - 统计: api/statistics.md
+          - MCP: api/mcp.md
+      - v3:
+          - 用户: api/users_v3.md
+          - 分组: api/groups_v3.md
+          - 活动: api/activities_v3.md
   - 开发指南:
       - 后端: dev/backend.md
       - 前端: dev/frontend.md

@@ -76,5 +76,10 @@ Authorization: Bearer <token>
 | `/api/v3/users` | `users_v3_router` | — |
 | `/api/v3/groups` | `groups_v3_router` | — |
 
-!!! note
-    逐端点的路径、方法与鉴权依赖清单正在整理中，将按业务域分页补充。
+## 逐端点参考
+
+按业务域分页的端点清单（路径、方法、鉴权依赖、参数与用途）：
+
+- 基础层：[用户](users.md)　·　[分组](groups.md)　·　[日志](logs.md)　·　[附件](attachments.md)　·　[导入导出](transfers.md)　·　[更新日志](changelog.md)
+- v2：[用户](users_v2.md)　·　[分组](groups_v2.md)　·　[活动](activities_v2.md)　·　[时长](times.md)　·　[统计](statistics.md)　·　[MCP](mcp.md)
+- v3：[用户](users_v3.md)　·　[分组](groups_v3.md)　·　[活动](activities_v3.md)

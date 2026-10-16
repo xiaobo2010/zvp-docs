@@ -31,7 +31,7 @@ zvms4-backend-python/
 - 创建 `FastAPI` 实例，统一响应类为 `JSONResponse`，内建 `docs_url=None`（不暴露默认文档页）
 - 注册 CORS、请求加固等中间件
 - 注册全局异常处理（校验错误等）
-- 挂载各业务路由（见 [API 参考](../api/index.md#路由挂载)）
+- 挂载各业务路由（见 [API 参考](../api/index.md)）
 - 启动 / 关停钩子（数据库 ping、socket.io、APScheduler 调度器）
 
 ## 数据访问
