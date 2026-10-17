@@ -20,7 +20,7 @@
 Authorization: Bearer <token>
 ```
 
-- Token 通过登录端点签发（OAuth2 Password 流程，`tokenUrl = "token"`）。
+- 令牌通过登录端点 `POST /api/users/auth` 签发，请求体为 `{id, mode, credential, purpose?}`（**非** OAuth2 Password 表单）。代码虽以 `OAuth2PasswordBearer(tokenUrl="token")` 声明依赖，但平台并未暴露 `/token` 端点。
 - 令牌含作用域区分：部分写操作要求**短期令牌**（`compulsory_temporary_token`）。
 - 缺少或无效令牌时返回：
 
@@ -66,6 +66,7 @@ Authorization: Bearer <token>
 | `/api/logs` | `logs_router` | logs |
 | `/api/changelog` | `changelog_router` | changelog |
 | `/api/attachments` | `attachments_router` | attachments |
+| `/api/system/maintenance` | `system_router` | System |
 | `/api/v2/activities` | `activities_v2_router` | — |
 | `/api/v2/users` | `users_v2_router` | — |
 | `/api/v2/groups` | `groups_v2_router` | — |
@@ -76,10 +77,21 @@ Authorization: Bearer <token>
 | `/api/v3/users` | `users_v3_router` | — |
 | `/api/v3/groups` | `groups_v3_router` | — |
 
+## 维护模式
+
+平台内建维护模式（`/api/system/maintenance`，详见 [系统](system.md)）。开启后：
+
+- 业务 `/api/**` 请求一律 `503 {"detail": "系统维护中，请稍后再试", "maintenance": true}`；**admin 也无豁免**。
+- 豁免：`/api`、`/api/`、`/api/users/auth`、`/api/cert`、`/api/version`、`/api/health`、整个 `/api/system` 前缀，以及所有 `OPTIONS` 预检。
+- `/socket.io` 在维护期间握手即被拒（HTTP `503`，响应体含 `maintenance` 与 `socket`）；已建立的连接在开启瞬间被主动断开。
+
+!!! warning "调试注意"
+    平台有个「盾牌」中间件：`User-Agent` 不含 `Mozilla` 的请求一律返回 `418`。用 `curl` / 脚本调试时须带 `-A "Mozilla/5.0"`，否则会把 `418` 误判成业务失败。
+
 ## 逐端点参考
 
 按业务域分页的端点清单（路径、方法、鉴权依赖、参数与用途）：
 
-- 基础层：[用户](users.md)　·　[分组](groups.md)　·　[日志](logs.md)　·　[附件](attachments.md)　·　[导入导出](transfers.md)　·　[更新日志](changelog.md)
+- 基础层：[用户](users.md)　·　[分组](groups.md)　·　[日志](logs.md)　·　[附件](attachments.md)　·　[系统](system.md)　·　[导入导出](transfers.md)　·　[更新日志](changelog.md)
 - v2：[用户](users_v2.md)　·　[分组](groups_v2.md)　·　[活动](activities_v2.md)　·　[时长](times.md)　·　[统计](statistics.md)　·　[MCP](mcp.md)
 - v3：[用户](users_v3.md)　·　[分组](groups_v3.md)　·　[活动](activities_v3.md)

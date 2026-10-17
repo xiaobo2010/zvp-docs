@@ -73,6 +73,7 @@ nav:
           - 分组: api/groups.md
           - 日志: api/logs.md
           - 附件: api/attachments.md
+          - 系统: api/system.md
           - 导入导出: api/transfers.md
           - 更新日志: api/changelog.md
       - v2:
