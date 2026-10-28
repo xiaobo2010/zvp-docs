@@ -52,6 +52,9 @@ Authorization: Bearer <token>
 | `403` | 已认证但无权限 |
 | `404` | 资源不存在 |
 | `422` | 请求参数校验失败（FastAPI 默认结构） |
+| `429` | 频控 / 额度耗尽：`{"detail":{"code":"AUTH_RATE_LIMITED","message":"..."}}`（登录）或 `READ_RATE_LIMITED`（重查询）；带 `Retry-After` |
+
+部分端点要求**密码再认证**：请求体带 `verification_token`（`POST /api/users/auth` 的 `purpose=verify` 换出的 5 分钟短令牌）。缺失或无效统一 `403 {"detail":"需要密码验证后才能继续"}`。清单见 [AI 网关](ai.md) / [封禁](ban.md) / [通知](notifications.md) / [系统](system.md)。
 
 ## 路由挂载
 
@@ -66,7 +69,12 @@ Authorization: Bearer <token>
 | `/api/logs` | `logs_router` | logs |
 | `/api/changelog` | `changelog_router` | changelog |
 | `/api/attachments` | `attachments_router` | attachments |
+| `/api/ai` | `ai_router` / `ai_conversations_router` / `ai_scenes_router` | ai |
+| `/api/ai/agent` | `ai_agent_router` | ai |
+| `/api/ai/api-keys` | `ai_api_keys_router` | ai |
 | `/api/system/maintenance` | `system_router` | System |
+| `/api/system/settings` | `system_settings_router` | System |
+| `/api/system/files` | `system_files_router` | System |
 | `/api/v2/activities` | `activities_v2_router` | — |
 | `/api/v2/users` | `users_v2_router` | — |
 | `/api/v2/groups` | `groups_v2_router` | — |
@@ -76,6 +84,8 @@ Authorization: Bearer <token>
 | `/api/v3/activities` | `activities_v3_router` | — |
 | `/api/v3/users` | `users_v3_router` | — |
 | `/api/v3/groups` | `groups_v3_router` | — |
+| `/api/v3/ban` | `ban_router` / `ban_violations_router` | ban |
+| `/api/v3/notifications` | `notifications_router` | notifications |
 
 ## 维护模式
 
@@ -93,5 +103,6 @@ Authorization: Bearer <token>
 按业务域分页的端点清单（路径、方法、鉴权依赖、参数与用途）：
 
 - 基础层：[用户](users.md)　·　[分组](groups.md)　·　[日志](logs.md)　·　[附件](attachments.md)　·　[系统](system.md)　·　[导入导出](transfers.md)　·　[更新日志](changelog.md)
+- AI：[ZVAgent / AI 网关](ai.md)
 - v2：[用户](users_v2.md)　·　[分组](groups_v2.md)　·　[活动](activities_v2.md)　·　[时长](times.md)　·　[统计](statistics.md)　·　[MCP](mcp.md)
-- v3：[用户](users_v3.md)　·　[分组](groups_v3.md)　·　[活动](activities_v3.md)
+- v3：[用户](users_v3.md)　·　[分组](groups_v3.md)　·　[活动](activities_v3.md)　·　[封禁](ban.md)　·　[通知](notifications.md)
